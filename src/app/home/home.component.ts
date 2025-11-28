@@ -1,23 +1,12 @@
-import { Component, inject } from '@angular/core';
-import { TaskService } from '../core/services/task.service';
-import { AsyncPipe } from '@angular/common';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-tasks-page',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-
 export class HomeComponent {
-  taskService = inject(TaskService);
-  tasks$ = this.taskService.tasks$;
-  count = 0;
-  intervalId: any;
-
-  addTask(title: string){
-    this.taskService.addTask(title);
-  }
 
 }
