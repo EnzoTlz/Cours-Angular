@@ -1,12 +1,14 @@
-<p>Liste step</p>
-@if(tasks$ |async; as tasks){
-    <ul>
-        @for (t of tasks; track t.id) {
-            <li> {{t.title}} </li>
-        }
-    </ul>
-}@else {
-    <p>Chargement ...</p>
-}
+<div class="header-task">
+    <h1>Liste des tâches</h1>
+    <button (click)="addTask('test')">Ajouter</button>
+</div>
 
-<button (click)="addTask('test')">Ajouter</button>
+@if(tasks$ |async; as tasks){
+<ul>
+    @for (t of tasks; track t.id) {
+    <li> {{t.title}} </li>
+    }
+</ul>
+}@else {
+<p>Chargement ...</p>
+}
