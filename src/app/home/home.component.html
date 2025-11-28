@@ -1,1 +1,12 @@
-<p>home works!</p>
+<p>Liste step</p>
+@if(tasks$ |async; as tasks){
+    <ul>
+        @for (t of tasks; track t.id) {
+            <li> {{t.title}} </li>
+        }
+    </ul>
+}@else {
+    <p>Chargement ...</p>
+}
+
+<button (click)="addTask('test')">Ajouter</button>

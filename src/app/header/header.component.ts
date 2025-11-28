@@ -9,6 +9,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
+
 export class HeaderComponent {
 
 }
