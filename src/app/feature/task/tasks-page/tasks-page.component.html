@@ -1,14 +1,19 @@
 <div class="header-task">
-    <h1>Liste des tâches</h1>
-    <button (click)="addTask('test')">Ajouter</button>
+  <h1>Liste des tâches</h1>
+  <button type="button" (click)="addTask('test')">Ajouter</button>
 </div>
 
-@if(tasks$ |async; as tasks){
-<ul>
+@if (tasks$ | async; as tasks) {
+  <ul>
     @for (t of tasks; track t.id) {
-    <li> {{t.title}} </li>
+      <li>
+        {{ t.title }}
+        <button type="button" (click)="deleteTask(t.id)" class="btn-delete">
+          Supprimer
+        </button>
+      </li>
     }
-</ul>
-}@else {
-<p>Chargement ...</p>
+  </ul>
+} @else {
+  <p>Chargement ...</p>
 }

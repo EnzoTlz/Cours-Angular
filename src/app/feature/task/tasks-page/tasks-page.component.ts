@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { TaskService } from '../services/task.service';
 import { AsyncPipe } from '@angular/common';
+import { TaskService } from '../services/task.service';
 
 @Component({
   selector: 'app-tasks-page',
@@ -9,15 +9,15 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './tasks-page.component.html',
   styleUrl: './tasks-page.component.css'
 })
-
 export class TasksPageComponent {
-  taskService = inject(TaskService);
+  private taskService = inject(TaskService);
   tasks$ = this.taskService.tasks$;
-  count = 0;
-  intervalId: any;
 
-  addTask(title: string){
+  addTask(title: string): void {
     this.taskService.addTask(title);
   }
 
+  deleteTask(id: number): void {
+    this.taskService.deleteTask(id);
+  }
 }
