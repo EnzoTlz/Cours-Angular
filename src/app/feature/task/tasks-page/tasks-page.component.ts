@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { TaskService } from '../services/task.service';
 
@@ -6,6 +6,7 @@ import { TaskService } from '../services/task.service';
   selector: 'app-tasks-page',
   standalone: true,
   imports: [AsyncPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './tasks-page.component.html',
   styleUrl: './tasks-page.component.css'
 })

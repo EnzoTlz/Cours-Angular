@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
@@ -6,6 +6,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   selector: 'app-header',
   standalone: true,
   imports: [CommonModule, RouterLink, RouterOutlet],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
