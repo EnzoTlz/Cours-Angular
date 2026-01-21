@@ -1,19 +1,87 @@
 <div class="header-task">
   <h1>Liste des tâches</h1>
-  <button type="button" (click)="addTask('test')">Ajouter</button>
+  <div class="add-task-container">
+    <input 
+      type="text" 
+      class="add-task-input" 
+      [class.error]="inputError()"
+      placeholder="Ajouter une nouvelle tâche..." 
+      [value]="newTaskTitle()"
+      (input)="newTaskTitle.set($any($event.target).value)"
+      (keyup.enter)="addTask()"
+    />
+    <button type="button" class="btn-add" (click)="addTask()">Ajouter</button>
+  </div>
 </div>
 
+<!-- Compteur et progression -->
 @if (tasks$ | async; as tasks) {
-  <ul>
-    @for (t of tasks; track t.id) {
-      <li>
-        {{ t.title }}
-        <button type="button" (click)="deleteTask(t.id)" class="btn-delete">
-          Supprimer
-        </button>
-      </li>
-    }
-  </ul>
+  <div class="stats-container">
+    <div class="stat-card">
+      <span class="stat-label">Tâches</span>
+      <span class="stat-value">{{ tasks.length }}</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Complétées</span>
+      <span class="stat-value">{{ completedCount$ | async }}</span>
+    </div>
+  </div>
+
+  <!-- Barre de progression -->
+  <div class="progress-container">
+    <div class="progress-bar-wrapper">
+      <div class="progress-bar-fill" [style.width.%]="(progressPercent$ | async) || 0"></div>
+    </div>
+    <span class="progress-text">{{ (progressPercent$ | async) || 0 }}% complétées</span>
+  </div>
+}
+
+<!-- Liste des tâches -->
+@if (tasks$ | async; as tasks) {
+  @if (tasks.length > 0) {
+    <ul>
+      @for (t of tasks; track t.id; let idx = $index) {
+        <li [style.--delay]="idx * 50 + 'ms'" [class.completed]="t.completed" [class.editing]="editingId() === t.id">
+          @if (editingId() === t.id) {
+            <!-- Mode édition -->
+            <input 
+              type="text" 
+              class="edit-input" 
+              [value]="editingTitle()"
+              (input)="editingTitle.set($any($event.target).value)"
+              (keyup.enter)="saveEdit(t.id)"
+              (keyup.escape)="cancelEdit()"
+              autofocus
+            />
+            <div class="edit-actions">
+              <button type="button" class="btn-save" (click)="saveEdit(t.id)">Sauvegarder</button>
+              <button type="button" class="btn-cancel" (click)="cancelEdit()">Annuler</button>
+            </div>
+          } @else {
+            <!-- Mode normal -->
+            <button type="button" class="task-icon-btn" (click)="toggleTask(t.id)" [title]="t.completed ? 'Marquer comme incomplète' : 'Marquer comme complète'">
+              @if (t.completed) {
+                <span class="check-icon">✓</span>
+              } @else {
+                <span class="dot-icon"></span>
+              }
+            </button>
+            <span class="task-text">{{ t.title }}</span>
+            <div class="task-actions">
+              <button type="button" class="btn-edit" (click)="startEdit(t.id, t.title)">Éditer</button>
+              <button type="button" (click)="deleteTask(t.id)" class="btn-delete">Supprimer</button>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  } @else {
+    <div class="empty-state">
+      <div class="empty-icon">📝</div>
+      <p class="empty-text">Aucune tâche pour le moment</p>
+      <p class="empty-subtext">Cliquez sur "Ajouter" pour en créer une</p>
+    </div>
+  }
 } @else {
   <p>Chargement ...</p>
 }

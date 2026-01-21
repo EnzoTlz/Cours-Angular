@@ -11,12 +11,8 @@ export interface Task {
   providedIn: 'root'
 })
 export class TaskService {
-  private tasks: Task[] = [
-    { id: 1, title: 'step 1', completed: false },
-    { id: 2, title: 'step 2', completed: false },
-    { id: 3, title: 'step 3', completed: false }
-  ];
-  private lastId = 3;
+  private tasks: Task[] = [];
+  private lastId = 0;
 
   private tasksSubject = new BehaviorSubject<Task[]>(this.tasks);
   tasks$ = this.tasksSubject.asObservable();

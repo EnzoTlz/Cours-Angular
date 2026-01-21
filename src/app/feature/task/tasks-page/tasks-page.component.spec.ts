@@ -71,8 +71,9 @@ describe('TasksPageComponent avec Mock', () => {
   });
 
   it('devrait utiliser le mock pour ajouter une tâche', (done) => {
-    // ACT : On appelle la méthode du composant
-    component.addTask('Tâche mockée');
+    // ACT : On fixe le signal et on appelle la méthode du composant
+    component.newTaskTitle.set('Tâche mockée');
+    component.addTask();
 
     // ASSERT : Le mock a bien simulé l'ajout
     mockService.tasks$.subscribe((tasks: Task[]) => {
@@ -85,7 +86,8 @@ describe('TasksPageComponent avec Mock', () => {
 
   it('devrait supprimer une tâche avec le mock', (done) => {
     // ARRANGE
-    component.addTask('Tâche à supprimer');
+    component.newTaskTitle.set('Tâche à supprimer');
+    component.addTask();
     
     mockService.tasks$.subscribe((tasks: Task[]) => {
       if (tasks.length === 1) {
@@ -106,8 +108,10 @@ describe('TasksPageComponent avec Mock', () => {
 
   it('devrait afficher les tâches du mock dans le template', (done) => {
     // ARRANGE
-    component.addTask('Tâche 1');
-    component.addTask('Tâche 2');
+    component.newTaskTitle.set('Tâche 1');
+    component.addTask();
+    component.newTaskTitle.set('Tâche 2');
+    component.addTask();
 
     // ACT & ASSERT
     component.tasks$.subscribe((tasks: Task[]) => {
